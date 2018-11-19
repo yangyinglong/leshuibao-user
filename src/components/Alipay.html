@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		支付页面
+	</title>
+</head>
+<body>
+	<form name="punchout_form" method="post" action="https://openapi.alipaydev.com/gateway.do?charset=UTF-8&method=alipay.trade.page.pay&sign=XqiNbXOcr%2B58iX43qCTEd5MK0jF8eDfemb%2F8XRowVDmk7%2FKK011IXJvyekE5mRcXE1FkBLf%2BlXn8ehOV5bIDwFjRHYgvFEyT1J1QGouqEjYm2nfw2q1xaPcro5Yuf9f2io4gyhJbflFxfzNf0ljnU4mcgt8xHXqJVswrmSX9F371LH1ZPZkqdGvHRMLWVd7IsXri1rJEYsPjx%2B6tbtZ3yzJfY8OoQHmW2c8fcpZiYMY%2FwxE8Ptflc1EX5Kyd30oZVT5WwmqfSXNtTHMgU%2F0VJjSGzegJsnyqoKCxxvHJb0LgcTAnmcT%2BdzM59r0GoYXtq3X3DuiWuZk%2F1b0jivCYkw%3D%3D&version=1.0&app_id=2016092000557827&sign_type=RSA2&timestamp=2018-11-01+15%3A59%3A39&alipay_sdk=alipay-sdk-java-3.3.87.ALL&format=json">
+	<input type="hidden" name="biz_content" value="{    &quot;out_trade_no&quot;:840574972936363517725678,    &quot;product_code&quot;:&quot;FAST_INSTANT_TRADE_PAY&quot;,    &quot;total_amount&quot;:7.76,    &quot;subject&quot;:&quot;发票订单&quot;,    &quot;body&quot;:&quot;订单&quot;,    &quot;passback_params&quot;:&quot;merchantBizType%3d3C%26merchantBizNo%3d2016010101111&quot;,    &quot;extend_params&quot;:{    &quot;sys_service_provider_id&quot;:&quot;2088511833207846&quot;    }  }">
+	<input type="submit" value="立即支付" style="display:none" >
+	</form>
+	<script>document.forms[0].submit();</script>
+</body>
+</html>

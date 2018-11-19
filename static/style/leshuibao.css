@@ -1,0 +1,50 @@
+.navigate {
+  width: 800px;
+  display: inline-block;
+}
+
+.main {
+  width: 800px;
+  height: 600px;
+  margin: 0 auto;
+  /*background-color: aquamarine;*/
+}
+
+.headerLeft {
+  overflow: auto;
+  float: left;
+}
+
+.headerRight {
+  overflow: auto;
+  float: right;
+}
+
+.logo {
+  font-size: 28px;
+  color: #2c3e50;
+}
+
+.linked {
+  color: #999999;
+}
+
+.linked:hover {
+  color: #2c3e50;
+  text-decoration: underline;
+}
+
+.content {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  horiz-align: center;
+  white-space: nowrap;
+  margin: 0;
+}
+
+h3 {
+  float: bottom;
+  font-size: 20px;
+  color: #666666;
+}
