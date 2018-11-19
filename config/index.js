@@ -8,12 +8,12 @@ module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: './',   // 上线环境
-    // assetsPublicPath: '/', // 本地调试
+    // assetsPublicPath: './',   // 上线环境
+    assetsPublicPath: '/', // 本地调试
     proxyTable: {
       '/api': {
-        // target: 'http://127.0.0.1:7070', // 本地调试
-        target: 'http://leshuibao.cn:7070', // 上线环境
+        target: 'http://127.0.0.1:7070', // 本地调试
+        // target: 'http://leshuibao.cn:7070', // 上线环境
         changeOrigin: true
         // pathRewrite: {
         //   '^/api': 'api'

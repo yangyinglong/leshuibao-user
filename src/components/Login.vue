@@ -100,25 +100,34 @@
           sessionStorage.setItem('status', result.r.status)
           sessionStorage.setItem('createTime', result.r.createTime)
           if (result.c === 200) {
-            // console.log(result.r)
             this.$store.dispatch('login', result.r).then(() => {
-              this.$notify({
-                type: 'success',
+              // this.$notify({
+              //   type: 'success',
+              //   message: '欢迎您，' + result.r.userName + '!',
+              //   duration: 2000
+              // })
+              this.$message({
                 message: '欢迎您，' + result.r.userName + '!',
-                duration: 2000
-              })
+                type: 'success'
+              });
             })
-            // this.loginLable = result.r.userName
-            // this.loginStatus = result.r.status
             this.dialogLoginVisible = false
           } else {
-            this.$message.warning("登录失败，请确认用户名和密码。")
+            // this.$message.warning("登录失败，请确认用户名和密码。")
             this.dialogLoginVisible = true // todo
+            this.$alert('账号或密码错误，请重新输入', {
+              dangerouslyUseHTMLString: true,
+              callback: this.clearPass, //关闭后的回调函数
+              showClose: false
+            });
           }
         }, (err) => {
           this.$message.error(err.msg)
           // this.searchLoading = false
         })
+      },
+      clearPass(){
+        this.loginform.password = ''
       }
     }
   }
