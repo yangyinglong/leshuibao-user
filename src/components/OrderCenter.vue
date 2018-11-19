@@ -25,17 +25,17 @@
         <div class="main">
           <div class="content">
             <div class="content">
-              <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全部订单
+              <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" :disabled="isDisAble">全部订单
               </el-checkbox>
             </div>
             <div class="content" style="width: 200px"/>
             <div class="content">
-              <el-checkbox-group v-model="checkedIterms" @change="handleCheckedItermsChange">
+              <el-checkbox-group v-model="checkedIterms" @change="handleCheckedItermsChange" :disabled="isDisAble">
                 <el-checkbox v-for="iterm in iterms" :label="iterm" :key="iterm">{{iterm}}</el-checkbox>
               </el-checkbox-group>
             </div>
             <div style="margin-top: 30px;">
-              <el-table :data="tableData">
+              <el-table :data="tableData" v-loading="loading">
                 <el-table-column prop="createdTime" label="开票日期" width="100"></el-table-column>
                 <el-table-column prop="payeeName" label="抬头" width="220"></el-table-column>
                 <el-table-column prop="totalAmount" label="开票金额" width="100"></el-table-column>
@@ -83,7 +83,9 @@
         iterms: itermOptions,
         isIndeterminate: true,
         tableData: [],
-        isIndeterminate: true
+        isIndeterminate: true,
+        loading: true,
+        isDisAble: true
       }
     },
     created() {
@@ -108,9 +110,16 @@
           startPageNum: 1,
           pageRange: 10
         }
+        if (this.checkedIterms.length == 0) {
+          this.tableData = []
+          return
+        }
         this.$http.ShowOrders(showOrdersReqData).then((result) => {
+          this.loading = false
+          this.isDisAble = false
           if (result.c === 200) {
             this.tableData = result.r
+            console.log("one time")
           } else {
             this.$message.error(result.r)
             this.tableData = []
@@ -118,7 +127,9 @@
         }, (err) => {
           this.$message.error(err.msg)
           // this.searchLoading = false
-        })
+        })        
+        this.loading = true
+        this.isDisAble = true
       },
       handleShow(index, row) {
         sessionStorage.setItem('orderId', row.orderId),
