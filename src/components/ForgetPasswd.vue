@@ -37,7 +37,8 @@
             <el-form-item label="验证码：" prop="validatecode">
               <el-input v-model.number="ruleForm.validatecode" autocomplete="off" placeholder="请输入验证码">
                 <!-- <div slot="append">获取短信验证码</div> -->
-                <el-button @click="getSms(ruleForm.phone)" slot="append">获取短信验证码</el-button>
+                <div v-if="!sendMsgDisabled" slot="append" @click="getSms(ruleForm.phone)" style="width: 100px">{{mess}}</div>
+                <div v-if="sendMsgDisabled" slot="append" style="width: 100px">{{time+'秒后获取'}}</div>
               </el-input>
               <br>
               <br><br>
@@ -114,7 +115,10 @@
           validatecode: [
             {required: true, message: '短信验证码不能为空', trigger: 'blur'}
           ]
-        }
+        },
+        sendMsgDisabled: false,
+        time: 60,
+        mess: '获取短信验证码'
       }
     },
     methods: {
@@ -123,6 +127,16 @@
           if (result.c === 200) {
             this.smsId = result.r
             this.$message.success('已发送验证码！请查看手机。')
+            let me = this
+              me.sendMsgDisabled = true
+              let interval = window.setInterval(function() {
+               if ((me.time--) <= 0) {
+                me.time = 60
+                me.sendMsgDisabled = false         
+                me.mess = '重新获取验证码'
+                window.clearInterval(interval);
+               }
+              }, 1000);
           } else {
             this.$message.error(result.r)
           }

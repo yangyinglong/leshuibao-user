@@ -9,7 +9,7 @@
           </div>
           <div class="headerRight">
             <b class="logo">&nbsp</b>
-            <el-button type="info" plain size="small" style="font-size: 14px" @click="showOrders">点击刷新状态</el-button>
+            <el-button type="info" plain size="small" style="font-size: 14px" @click="refresh">点击刷新状态</el-button>
             &nbsp&nbsp
             <router-link to="/tradinghall" style="text-decoration: none;"><b class="linked">开票系统</b></router-link>
             <b style="color: #999999;">&nbsp|&nbsp</b>
@@ -22,7 +22,7 @@
         </div>
       </el-header>
       <el-main>
-        <div class="main">
+        <div class="main" disable="isDisAble">
           <div class="content">
             <div class="content">
               <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" :disabled="isDisAble">全部订单
@@ -51,6 +51,20 @@
                   </template>
                 </el-table-column>
               </el-table>
+            </div>
+            <br>
+            <div class="block">
+              <!-- <span class="demonstration"></span> -->
+              <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage4"
+                :page-sizes="[10]"
+                :page-size="10"
+                layout="total, prev, pager, next, jumper"
+                :total="total"
+                :disabled="isDisAble">
+              </el-pagination>
             </div>
           </div>
         </div>
@@ -85,30 +99,37 @@
         tableData: [],
         isIndeterminate: true,
         loading: true,
-        isDisAble: true
+        isDisAble: true,
+        currentPage4: 1,
+        total: 70
       }
     },
     created() {
-      this.showOrders()
+      this.showOrders(1, 10)
     },
     methods: {
+      refresh(){
+        this.showOrders(1, 10)
+        this.currentPage4 = 1
+        this.total = 90
+      },
       handleCheckAllChange(val) {
         this.checkedIterms = val ? itermOptions : []
         this.isIndeterminate = false
-        this.showOrders()
+        this.showOrders(1, 10)
       },
       handleCheckedItermsChange(value) {
         let checkedCount = value.length
         this.checkAll = checkedCount === this.iterms.length
         this.isIndeterminate = checkedCount > 0 && checkedCount < this.iterms.length
-        this.showOrders()
+        this.showOrders(1, 10)
       },
-      showOrders() {
+      showOrders(startPageNum, pageRange) {
         var showOrdersReqData = {
           userId: sessionStorage.getItem('userId'),
           auditStatus: this.checkedIterms,
-          startPageNum: 1,
-          pageRange: 10
+          startPageNum: startPageNum,
+          pageRange: pageRange
         }
         if (this.checkedIterms.length == 0) {
           this.tableData = []
@@ -119,7 +140,6 @@
           this.isDisAble = false
           if (result.c === 200) {
             this.tableData = result.r
-            console.log("one time")
           } else {
             this.$message.error(result.r)
             this.tableData = []
@@ -138,6 +158,17 @@
       handleEdit(index, row) {
         sessionStorage.setItem('orderId', row.orderId),
         this.$router.push({name: 'OrderEdit', params: {orderId: row.orderId}})
+      },
+      handleSizeChange(val) {
+        
+      },
+      handleCurrentChange(val) {
+        // console.log(`当前页: ${val}`);
+        // if (val === 1) {
+        //   this.showOrders(val, 9)
+        //   return
+        // }
+        this.showOrders(val, 10)
       }
     }
   }
