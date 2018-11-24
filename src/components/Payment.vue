@@ -29,12 +29,6 @@
               <div class="content" style="display: table-cell">请点击支付宝或微信图标 支付金额： <u style="color: red">{{all_amount}}</u> 元</div>
             </div>
             <div style="height: 20px"/>
-            <!--<div style="background-color: #d7d7d7;height: 48px; width: 500px; display: table;">-->
-              <!--<div class="content" style="display: table-cell">-->
-                <!--<b>请输入转账单号后四位：&nbsp&nbsp</b>-->
-                <!--<el-input placeholder="  重要必填" v-model="payTraceCode" style="width:100px" size="mini"></el-input>-->
-                <!--&nbsp&nbsp<u>（如何获取转账单号）</u></div>-->
-            <!--</div>-->
             <div style="margin-top: 40px">
               <!--<router-link to="/usercenter">-->
               <!--<el-button style="width:280px; float: right; background-color: #d7d7d7;" @click="alipay">-->

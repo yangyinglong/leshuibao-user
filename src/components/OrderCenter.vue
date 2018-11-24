@@ -97,7 +97,6 @@
         iterms: itermOptions,
         isIndeterminate: true,
         tableData: [],
-        isIndeterminate: true,
         loading: true,
         isDisAble: true,
         currentPage4: 1,
@@ -106,23 +105,59 @@
     },
     created() {
       this.showOrders(1, 10)
+      this.getAllOrdersCount()
     },
     methods: {
       refresh(){
         this.showOrders(1, 10)
-        this.currentPage4 = 1
-        this.total = 90
+        this.getAllOrdersCount()
+        this.currentPage4 = '1'
       },
       handleCheckAllChange(val) {
         this.checkedIterms = val ? itermOptions : []
         this.isIndeterminate = false
         this.showOrders(1, 10)
+        this.getAllOrdersCount()        
+        this.currentPage4 = '1'
       },
       handleCheckedItermsChange(value) {
         let checkedCount = value.length
         this.checkAll = checkedCount === this.iterms.length
         this.isIndeterminate = checkedCount > 0 && checkedCount < this.iterms.length
         this.showOrders(1, 10)
+        this.getAllOrdersCount()     
+        this.currentPage4 = '1'
+      },
+      getAllOrdersCount(){
+        var showOrdersReqData = {
+          userId: sessionStorage.getItem('userId'),
+          auditStatus: this.checkedIterms,
+          startPageNum: 1,
+          pageRange: 10000000
+        }
+        if (this.checkedIterms.length == 0) {
+          this.tableData = []
+          this.currentPage4 = 1
+          this.total = 0
+          return
+        }
+        this.$http.ShowOrders(showOrdersReqData).then((result) => {
+          this.loading = false
+          this.isDisAble = false
+          if (result.c === 200) {
+            this.total = result.r.length
+            this.currentPage4 = 1
+          } else {
+       
+           this.currentPage4 = 1
+            this.total = 0
+          }
+        }, (err) => {
+          this.$message.error(err.msg)
+          // this.searchLoading = false
+        })        
+        this.loading = true
+        this.isDisAble = true
       },
       showOrders(startPageNum, pageRange) {
         var showOrdersReqData = {
@@ -163,11 +198,6 @@
         
       },
       handleCurrentChange(val) {
-        // console.log(`当前页: ${val}`);
-        // if (val === 1) {
-        //   this.showOrders(val, 9)
-        //   return
-        // }
         this.showOrders(val, 10)
       }
     }

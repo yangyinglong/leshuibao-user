@@ -144,12 +144,20 @@ export default {
   ShowGoods(params) {
     return fetch('/tradingHall/showGoods', params)
   },
+
   ShowOrderDtl(params) {
     return fetch('/tradingHall/showOrderDtl', params)
   },
 
   EditOrder(params) {
     return fetch('/tradingHall/editOrder', params)
-  }
+  },
 
+  EditPayee(params) {
+    return fetch('/tradingHall/editPayee', params)
+  },
+
+  DeletePayee(params) {
+    return fetch('/tradingHall/deletePayee', params)
+  }
 }
